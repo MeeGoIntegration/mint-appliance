@@ -1,0 +1,1 @@
+SUBSYSTEM=="input", KERNEL=="event*", ATTRS{name}=="* QEMU USB Tablet", SYMLINK+="input/qemu_tablet"

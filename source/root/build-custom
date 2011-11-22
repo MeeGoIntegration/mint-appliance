@@ -1,0 +1,78 @@
+#!/bin/bash -e
+#
+# This script is executed at the end of appliance creation.  Here you can do
+# one-time actions to modify your appliance before it is ever used, like
+# removing files and directories to make it smaller, creating symlinks,
+# generating indexes, etc.
+#
+# The 'kiwi_type' variable will contain the format of the appliance (oem =
+# disk image, vmx = VMware, iso = CD/DVD, xen = Xen).
+#
+
+# read in some variables
+#. /studio/profile
+
+# read in KIWI utility functions
+. /.kconfig
+
+#======================================
+# Prune extraneous files
+#--------------------------------------
+# Remove all documentation
+docfiles=`find /usr/share/doc/packages -type f |grep -iv "copying\|license\|copyright"`
+rm -f $docfiles
+rm -rf /usr/share/info
+rm -rf /usr/share/man
+
+echo "mint-appliance" > /etc/HOSTNAME
+# Your server must resolve as 'obs' and 'api' both on the server and
+# any clients. Either setup local DNS or edit hosts file.
+echo 127.0.0.1  mint-appliance api obs >> /etc/hosts
+
+cat << EOF >> /etc/resolv.conf
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+EOF
+
+rm -rf /var/lib/rabbitmq/mnesia/rabbit
+find /usr/lib/ruby/gems/1.8/gems -type f -exec chmod o+r {} +
+
+a2enmod xforward
+a2enmod passenger
+a2enmod headers
+a2enmod proxy
+
+SERVER_HOME=/var/lib/boss
+SERVER_LOGDIR=/var/log/boss
+SERVER_DATABASE=/var/spool/boss
+SERVER_USER=boss
+SERVER_NAME="BOSS"
+SERVER_GROUP=boss
+SERVICE_DIR=/etc/service
+# and allow local overrides
+[ -f "/etc/sysconfig/boss" ] && . /etc/sysconfig/boss
+
+inittab_line="SN:2345:respawn:/usr/bin/svscan $SERVICE_DIR"
+
+[ ! -d $SERVICE_DIR ] && mkdir -p $SERVICE_DIR
+
+if ! grep "$inittab_line" /etc/inittab >/dev/null; then
+    echo "$inittab_line" >> /etc/inittab
+fi
+    SERVICE_DIR=/var/lib/SkyNET/services/
+    STORAGE_DIR=/var/lib/SkyNET/store/
+
+    if [ -f /etc/sysconfig/boss-skynet ]; then
+      . /etc/sysconfig/boss-skynet
+    fi
+
+    inittab_line="SK:2345:respawn:/usr/bin/svscan $SERVICE_DIR"
+
+    [ ! -d $SERVICE_DIR ] && mkdir -p $SERVICE_DIR
+    [ ! -d $STORAGE_DIR ] && mkdir -p $STORAGE_DIR
+
+    if ! grep "$inittab_line" /etc/inittab >/dev/null; then
+    echo "$inittab_line" >> /etc/inittab
+    fi
+
+exit 0

@@ -1,0 +1,96 @@
+------------------------------------------------
+README for Kiwi source from SUSE Studio
+------------------------------------------------
+
+This tarball contains the Kiwi configuration, theming and overlay files that
+were exported from SUSE Studio (http://susestudio.com). It allows you to
+create your SUSE Studio configured appliance on your local system.
+
+The user is expected to be familiar with using Kiwi. Details on Kiwi can be
+found at http://kiwi.berlios.de.
+
+We recommend installing the version of Kiwi found in the openSUSE
+Virtualization:Appliances repository, eg:
+
+  http://download.opensuse.org/repositories/Virtualization:/Appliances/<distro_version>
+
+Please send all your questions and feedback to feedback@susestudio.com.
+
+
+----------------------
+Directory structure
+----------------------
+ source/             - Contains the kiwi config and overlay files for the
+                       image.
+ README              - This file.
+ create_appliance.sh - Helper script to create your appliance.
+
+The create_appliance.sh script simplifies the applicance creation by
+automatically running the kiwi prepare and create steps.
+
+It also prompts users to enter the URLs for internal repositories used by the
+appliance (eg. SUSE Linux Enterprise repositories) and updates the
+bootsource/config.xml and source/config.xml files accordingly. Backups of these
+config files are made to config.xml.bak in the respective directories if
+modifications are made by the script.
+
+The script warns the user if the installed kiwi version does not match the
+expected version. Minor version differences should be tolerable.
+
+
+----------------------
+Creating your appliance
+----------------------
+Simply run the create_appliance.sh script as root, eg:
+
+  sudo ./create_appliance.sh
+
+
+If your appliance uses internal (non-public) repositories, you will be prompted
+to specify the repo URL before continuing, eg:
+
+  > sudo ./create_appliance.sh
+  ** Checking for internal repositories...
+  Enter repository URL for 'SLES 11 i386': http://my.repository/path/to/repo
+
+
+A successful run looks like this:
+
+  > sudo ./create_appliance.sh
+  ** Checking for internal repositories...
+
+  ** Creating appliance...
+  rm -rf build/root
+  mkdir -p build image
+  /usr/bin/linux32 /usr/sbin/kiwi --prepare source --root build/root ...
+  Jun-09 14:55:17 <1> : Setting gzip command to: /usr/bin/pigz     done
+  Jun-09 14:55:17 <1> : Setting log file to: prepare.log
+  /usr/bin/linux32 /usr/sbin/kiwi --create build/root -d image ...
+  Jun-09 14:58:09 <1> : Setting gzip command to: /usr/bin/pigz     done
+  Jun-09 14:58:09 <1> : Setting log file to: create.log
+
+  ** Appliance created successfully! (image/James_JeOS_32bit.i686-0.0.1.raw)
+  To boot the image using qemu-kvm, run the following command:
+    qemu-kvm -snapshot -m 512 image/James_JeOS_32bit.i686-0.0.1.raw &
+
+
+You can tail the respective log files during the appliance creation to observe
+the details of the kiwi operation. For example:
+
+  tail -f boot-prepare.log
+
+
+----------------------
+Troubleshooting
+----------------------
+
+You may need to manually edit bootsource/config.xml and source/config.xml to
+remove repositories that are not available or failing in your environment.
+
+For example, to remove the 'openSUSE 11.1 Updates' repositories, remove the
+following lines from both config.xml:
+
+  <repository type='rpm-md'>
+    <source path='http://download.opensuse.org/update/11.1/'/>
+  </repository>
+

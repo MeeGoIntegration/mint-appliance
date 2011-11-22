@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<image name='mint_appliance_32bit' displayname='mint_appliance_32bit' schemeversion='2.4'>
+  <description type='system'>
+    <author/>
+    <contact/>
+    <specification/>
+  </description>
+  <preferences>
+    <type format='vmdk' filesystem='ext3' primary='true' checkprebuilt='true' fsnocheck='true' boot='vmxboot/suse-11.4'>vmx</type>
+    <version>0.0.26</version>
+    <packagemanager>zypper</packagemanager>
+    <rpm-check-signatures>False</rpm-check-signatures>
+    <rpm-force>False</rpm-force>
+    <boot-theme>studio</boot-theme>
+    <size additive='false' unit='M'>20480</size>
+  </preferences>
+  <users group='root'>
+    <user name='root' pwd='$1$VxPzGAaZ$qTlhUCTQkEw0EoGZO7MbL1' shell='/bin/bash' home='/root'/>
+  </users>
+  <users group='users'>
+    <user name='mint' pwd='$1$HHFpAaTC$GGSjhbpqgEaEsVOzf8Slk/' shell='/bin/bash' home='/home/mint'/>
+  </users>
+  <vmwareconfig memory='1000' arch='ix86' usb='true' guestOS='suse'>
+    <vmwaredisk id='0' controller='scsi'/>
+    <vmwarenic mode='bridged' interface='0' driver='e1000'/>
+  </vmwareconfig>
+  <packages patternType='onlyRequired' type='image' patternPackageType='onlyRequired'>
+    <package name='osc-source_validator'/>
+    <package name='kbd'/>
+    <package name='open-vm-tools'/>
+    <package name='vim'/>
+    <package name='bootsplash'/>
+    <package name='hwinfo'/>
+    <package name='licenses'/>
+    <package name='openSUSE-build-key'/>
+    <package name='syslog-ng'/>
+    <package name='grub'/>
+    <package name='branding-openSUSE'/>
+    <package name='PolicyKit'/>
+    <package name='polkit-default-privs'/>
+    <package name='iputils'/>
+    <package name='zypper'/>
+    <package name='postfix'/>
+    <package name='boss-viewer'/>
+    <package name='boss-launcher-robogrator'/>
+    <package name='boss-participant-getchangelog'/>
+    <package name='boss-participant-resolverequest'/>
+    <package name='boss-participant-notify'/>
+    <package name='boss-participant-standard-workflow'/>
+    <package name='boss-standard-workflow'/>
+    <package name='boss-participant-obsticket'/>
+    <package name='img-web'/>
+    <package name='img-ks'/>
+    <package name='img-worker'/>
+    <package name='obs-worker'/>
+    <package name='obs-api'/>
+    <package name='obs-source_service'/>
+    <package name='rubygem-passenger-apache2'/>
+    <package name='obs-utils'/>
+    <package name='qemu'/>
+    <package name='build-initvm'/>
+    <package name='obs-service-download_files'/>
+    <package name='obs-service-format_spec_file'/>
+    <package name='obs-service-kiwi_test'/>
+    <package name='obs-service-update_source'/>
+    <package name='obs-service-verify_file'/>
+    <package name='boss-participant-prechecks'/>
+    <package name='createrepo'/>
+    <package name='deb'/>
+    <package name='lvm2'/>
+    <package name='openslp-server'/>
+    <package name='obs-signd'/>
+    <package name='inst-source-utils'/>
+    <package name='memcached'/>
+    <package name='ntp'/>
+    <package name='haveged'/>
+    <package name='rng-tools'/>
+    <package name='kvm'/>
+    <package name='boss-obs-plugin'/>
+    <package name='git'/>
+    <package name='apache2-mod_xforward'/>
+    <archive bootinclude='true' name='bootsplash.tar'/>
+  </packages>
+  <packages type='bootstrap'>
+    <package name='filesystem'/>
+    <package name='glibc-locale'/>
+  </packages>
+  <repository type='rpm-md' priority='2' imageinclude='true'>
+    <source path='http://download.opensuse.org/update/11.4'/>
+  </repository>
+  <repository type='yast2' priority='2' imageinclude='true'>
+    <source path='http://download.opensuse.org/distribution/11.4/repo/oss'/>
+  </repository>
+  <repository type='rpm-md' priority='2' imageinclude='true'>
+    <source path='http://download.opensuse.org/repositories/devel:/languages:/ruby:/extensions/openSUSE_11.4'/>
+  </repository>
+  <repository type='rpm-md' priority='2' imageinclude='true'>
+    <source path='http://download.opensuse.org/repositories/openSUSE:/Tools/openSUSE_11.4'/>
+  </repository>
+  <repository type='rpm-md' priority='2' imageinclude='true'>
+    <source path='http://download.opensuse.org/repositories/openSUSE:Tools:Unstable/openSUSE_11.4'/>
+  </repository>
+  <repository type='rpm-md' priority='1' imageinclude='true'>
+    <source path='http://repo.pub.meego.com/Project:/MINT:/Testing/openSUSE_11.4'/>
+  </repository>
+  <repository type='rpm-md' priority='2' imageinclude='true'>
+    <source path='http://download.opensuse.org/repositories/devel:languages:python/openSUSE_11.4'/>
+  </repository>
+  <repository type='rpm-md' priority='2' imageinclude='true'>
+    <source path='http://download.opensuse.org/repositories/devel:languages:perl/openSUSE_11.4'/>
+  </repository>
+</image>
